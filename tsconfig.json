@@ -1,0 +1,5 @@
+{
+  "extends": "./tsconfig.base.json",
+  // When you clone the starter template, here is where you can
+  "compilerOptions": {}
+}
