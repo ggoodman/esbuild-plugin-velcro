@@ -2,7 +2,7 @@
 
 This esbuild plugin uses Velcro to build projects without having to npm install dependencies.
 
-This Plugin wires up [Velcro](https://github.com/ggoodman/velcro) with [esbuild](https://github.com/evanwallace/esbuild) so that bare module
+This Plugin wires up [Velcro](https://github.com/ggoodman/velcro) with [esbuild](https://github.com/evanw/esbuild) so that bare module
 
 ## Example
 
