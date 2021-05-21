@@ -38,7 +38,7 @@ Configure esbuild to build this project without ever having to `npm install` `re
 
 ```js
 import { build } from 'esbuild';
-import { createPlugin } from 'esbuild-plugin-velcro';
+import { createNodePlugin } from 'esbuild-plugin-velcro';
 
 (async () => {
   const result = await build({
@@ -47,7 +47,7 @@ import { createPlugin } from 'esbuild-plugin-velcro';
       'process.env.NODE_ENV': JSON.stringify('development'),
     },
     entryPoints: ['.'],
-    plugins: [createPlugin({ target: 'node' })],
+    plugins: [createNodePlugin()],
   });
 })();
 ```
@@ -58,15 +58,46 @@ import { createPlugin } from 'esbuild-plugin-velcro';
 
 Returns an instance of this plugin where options is an optional object having:
 
+- `.cwd` is the directory in the supplied `fs` that should be considered the base, or 'current' directory.
 - `.extensions` is an optional array of extensions to support resolving files without explicit extensions.
+- `.fs` is an object that implements a minimal subset of the [fs](https://nodejs.org/api/fs.html) interface.
+- `.readUrlFn` is a function that will returna `Promise` for an `ArrayBuffer` given a string `url`.
 - `.packageMain` is an optional array of supported 'main' fields. Options:
   - `browser` - Note that the `browser` field's extended resolution and overrides semantics are supported
   - `module`
   - `jsnext:main`
   - `main`
   - `unpkg`
-- `.target` is an optional value describing the target runtime environment for the build. Options:
-  - `node` - When this is specified, Node's built-in modules will be treated as `esbuild` externals, and therefore not bundled.
+
+### `createBrowserPlugin(options)`
+
+Returns an instance of this plugin where options is an optional object having:
+
+- `.cwd` is the directory in the supplied `fs` that should be considered the base, or 'current' directory.
+- `.extensions` is an optional array of extensions to support resolving files without explicit extensions.
+- `.fs` is an object that implements a minimal subset of the [fs](https://nodejs.org/api/fs.html) interface.
+- `.readUrlFn` is an optional function that will returna `Promise` for an `ArrayBuffer` given a string `url`. When not supplied, we'll fall back to using `fetch`.
+- `.packageMain` is an optional array of supported 'main' fields. Options:
+  - `browser` - Note that the `browser` field's extended resolution and overrides semantics are supported
+  - `module`
+  - `jsnext:main`
+  - `main`
+  - `unpkg`
+
+### `createNodePlugin(options)`
+
+Returns an instance of this plugin where options is an optional object having:
+
+- `.cwd` is the directory in the supplied `fs` that should be considered the base, or 'current' directory.
+- `.extensions` is an optional array of extensions to support resolving files without explicit extensions.
+- `.fs` is an optional object that implements a minimal subset of the [fs](https://nodejs.org/api/fs.html) interface. When not supplied, we'll fall back to using the real `fs` instance.
+- `.readUrlFn` is an optional function that will returna `Promise` for an `ArrayBuffer` given a string `url`. When not supplied, we'll fall back to using [got](https://npm.im/got).
+- `.packageMain` is an optional array of supported 'main' fields. Options:
+  - `browser` - Note that the `browser` field's extended resolution and overrides semantics are supported
+  - `module`
+  - `jsnext:main`
+  - `main`
+  - `unpkg`
 
 ## License
 

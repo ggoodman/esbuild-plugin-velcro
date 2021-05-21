@@ -1,23 +1,15 @@
 /// <reference types="jest" />
 
+import * as Path from 'path';
 import { build } from 'esbuild';
-import { createPlugin } from '../src';
+import { createNodePlugin } from '../src';
 
 describe('basic example', () => {
-  let cwd = process.cwd();
-
-  beforeAll(() => {
-    process.chdir(`${__dirname}/examples/basic`);
-  });
-
-  afterAll(() => {
-    process.chdir(cwd);
-  });
-
   it('will bundle a hello world react app and produce code able to render the component as a string', async () => {
     // Note that before this test, we've changed working directories into `./test/examples/basic`. As a result
     // paths below are relative to that context.
     const result = await build({
+      absWorkingDir: Path.resolve(__dirname, './examples/basic'),
       bundle: true,
       define: {
         // We want to avoid both the dev and prod branches of react from resolving
@@ -28,11 +20,7 @@ describe('basic example', () => {
       entryPoints: ['.'],
       // We need to produce CommonJS for our wrapper harness below
       format: 'cjs',
-      plugins: [
-        createPlugin({
-          target: 'node',
-        }),
-      ],
+      plugins: [createNodePlugin()],
       // sourcemap: 'inline',
       // sourcesContent: true,
       target: process.version.replace(/^v/, 'node'),
@@ -60,21 +48,12 @@ describe('basic example', () => {
   });
 });
 
-describe('basic example', () => {
-  let cwd = process.cwd();
-
-  beforeAll(() => {
-    process.chdir(`${__dirname}/examples/relative`);
-  });
-
-  afterAll(() => {
-    process.chdir(cwd);
-  });
-
+describe('basic example with relative paths', () => {
   it('will bundle a hello world react app with multiple files and produce code able to render the component as a string', async () => {
     // Note that before this test, we've changed working directories into `./test/examples/basic`. As a result
     // paths below are relative to that context.
     const result = await build({
+      absWorkingDir: Path.resolve(__dirname, './examples/basic'),
       bundle: true,
       define: {
         // We want to avoid both the dev and prod branches of react from resolving
@@ -86,9 +65,7 @@ describe('basic example', () => {
       // We need to produce CommonJS for our wrapper harness below
       format: 'cjs',
       plugins: [
-        createPlugin({
-          target: 'node',
-        }),
+        createNodePlugin(),
       ],
       // sourcemap: 'inline',
       // sourcesContent: true,
