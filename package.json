@@ -14,7 +14,7 @@
       },
       "default": "./dist/index.cjs.js"
     },
-    "./dist/": "./dist/"
+    "./dist/": "./dist/*"
   },
   "files": [
     "dist/**/!(tsconfig.tsbuildinfo)"
