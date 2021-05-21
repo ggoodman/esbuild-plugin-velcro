@@ -1,6 +1,6 @@
 {
   "name": "esbuild-plugin-velcro",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "This esbuild plugin uses Velcro to build projects without having to npm install dependencies",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
@@ -8,13 +8,13 @@
   "browser": {},
   "exports": {
     ".": {
-      "node": {
-        "require": "./dist/index.cjs.js",
-        "import": "./dist/index.esm.js"
-      },
+      "require": "./dist/index.cjs.js",
+      "import": "./dist/index.esm.js",
       "default": "./dist/index.cjs.js"
     },
-    "./dist/": "./dist/*"
+    "./dist/": "./dist/*",
+    "./package.json": "./package.json",
+    "./": "./*"
   },
   "files": [
     "dist/**/!(tsconfig.tsbuildinfo)"
